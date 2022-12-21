@@ -1,27 +1,29 @@
 {% extends 'base.html' %}
 
 {%block conteudo%}
-    <h1 class="mt-5">Minha agenda</h1>
+    <h1 class="mt-5">Mi libreta de contactos</h1>
 
     <table class="table">
         <thead>
         <tr>
-            <th>Nome</th>
-            <th>Sobrenome</th>
-            <th>Telefone</th>
-            <th>Categoria</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Contacto</th>
+            <th>Categoría</th>
         </tr>
         </thead>
             <tbody>
                 {% for contato in contatos %}
-                <tr>
-                    <td>
-                    <a href="#"> {{ contato.nome }}</a>
-                    </td>
-                    <td>{{ contato.sobrenome }}</td>
-                    <td>{{ contato.telefone}}</td>
-                    <td>{{ contato.categoria }}</td>
-                </tr>
+                    {% if contato.mostrar %}
+                        <tr>
+                            <td>
+                            <a href="{% url 'ver_contato' contato.id %}"> {{ contato.nome }}</a>
+                            </td>
+                            <td>{{ contato.sobrenome }}</td>
+                            <td>{{ contato.telefone}}</td>
+                            <td>{{ contato.categoria }}</td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
     </table>
