@@ -1,8 +1,8 @@
 {% if messsages  %}
     <br>
     {% for message in messages %}
-        <div class="{{message.tags}}" role="alert">
-            {{ message }}
+        <div class="alert {{messages.tags}}" role="alert">
+            {{ messages }}
         </div>
     {% endfor %}
 {% endif %}

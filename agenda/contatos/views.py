@@ -28,30 +28,30 @@ def ver_contato(request, contato_id):
         'contato': contato
     })
 
-def busca (request):
+def busca(request):
     termo = request.GET.get('termo')
 
-    if termo is None:
-        messages.add_message
-        (request, 
-        messages.ERROR, 
-        'O campo de busca não pode ficar vazio.'
+    if termo is None or not termo:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            'Campo termo não pode ficar vazio.'
         )
-        return redirect ('index')
+        return redirect('index')
 
-    campos = Concat('nome',Value(' '),'sobrenome')
+    campos = Concat('nome', Value(' '), 'sobrenome')
 
     contatos = Contato.objects.annotate(
         nome_completo=campos
     ).filter(
         Q(nome_completo__icontains=termo) | Q(telefone__icontains=termo)
     )
-    paginator = Paginator(contatos, 10)
+
+    paginator = Paginator(contatos, 20)
 
     page = request.GET.get('p')
     contatos = paginator.get_page(page)
 
-    return render(request, 'contatos/busca.html',{
+    return render(request, 'contatos/busca.html', {
         'contatos': contatos
     })
-   
