@@ -6,27 +6,31 @@ from django.db.models import Q, Value
 from django.db.models.functions import Concat
 from django.contrib import messages
 
+
 def index(request):
     contatos = Contato.objects.order_by('-id').filter(
         mostrar=True
     )
-    paginator = Paginator(contatos, 10)
+    paginator = Paginator(contatos, 20)
 
     page = request.GET.get('p')
     contatos = paginator.get_page(page)
 
-    return render(request, 'contatos/index.html',{
+    return render(request, 'contatos/index.html', {
         'contatos': contatos
     })
 
+
 def ver_contato(request, contato_id):
     contato = get_object_or_404(Contato, id=contato_id)
+
     if not contato.mostrar:
         raise Http404()
 
-    return render(request, 'contatos/ver_contato.html',{
+    return render(request, 'contatos/ver_contato.html', {
         'contato': contato
     })
+
 
 def busca(request):
     termo = request.GET.get('termo')
@@ -35,7 +39,7 @@ def busca(request):
         messages.add_message(
             request,
             messages.ERROR,
-            'Campo termo não pode ficar vazio.'
+            'Campo de busca não pode ficar vazio.'
         )
         return redirect('index')
 
